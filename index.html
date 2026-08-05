@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nomad Roasters — Small-Batch Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso:#1B1410;
+    --bark:#2E2119;
+    --parchment:#EDE6D6;
+    --parchment-dim:#C9BFA9;
+    --amber:#E8A33D;
+    --sage:#8A9A78;
+    --rust:#B5502C;
+    --display:'Fraunces', serif;
+    --body:'Inter', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--espresso);
+    color:var(--parchment);
+    font-family:var(--body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(27,20,16,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(237,230,214,0.1);
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 0;
+  }
+  .logo{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:22px;
+    letter-spacing:0.02em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--amber);
+    display:inline-block;
+  }
+  .nav-links{
+    display:flex;
+    gap:36px;
+    font-size:14px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .nav-links a{
+    color:var(--parchment-dim);
+    transition:color 0.2s ease;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--parchment);}
+  .nav-cta{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:10px 20px;
+    border:1px solid var(--amber);
+    color:var(--amber);
+    border-radius:2px;
+    transition:background 0.2s ease, color 0.2s ease;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--amber);color:var(--espresso);}
+  .nav-mobile-hide{display:flex;}
+  @media (max-width:760px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 80px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:64px;
+    align-items:center;
+  }
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;padding:56px 0 48px;gap:40px;}
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--sage);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:24px;height:1px;
+    background:var(--sage);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(40px, 5.6vw, 68px);
+    line-height:1.03;
+    letter-spacing:-0.01em;
+    margin-bottom:24px;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--amber);
+  }
+  .hero-copy{
+    font-size:17px;
+    color:var(--parchment-dim);
+    max-width:440px;
+    margin-bottom:36px;
+  }
+  .hero-actions{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    font-family:var(--mono);
+    font-size:14px;
+    background:var(--amber);
+    color:var(--espresso);
+    padding:15px 28px;
+    border-radius:2px;
+    font-weight:500;
+    transition:transform 0.2s ease, background 0.2s ease;
+    display:inline-block;
+  }
+  .btn-primary:hover{background:#F2B558; transform:translateY(-2px);}
+  .btn-ghost{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--parchment-dim);
+    padding:15px 10px;
+    border-bottom:1px solid rgba(237,230,214,0.3);
+    transition:color 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-ghost:hover{color:var(--parchment); border-color:var(--parchment);}
+
+  /* signature element: the batch label */
+  .batch-label{
+    background:var(--bark);
+    border:1px solid rgba(237,230,214,0.12);
+    border-radius:4px;
+    padding:28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .batch-label::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:3px;
+    background:linear-gradient(90deg, var(--amber), var(--rust));
+  }
+  .batch-label-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:20px;
+    padding-bottom:16px;
+    border-bottom:1px dashed rgba(237,230,214,0.18);
+  }
+  .batch-label-head .no{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sage);
+    letter-spacing:0.05em;
+  }
+  .batch-label-head .status{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--amber);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .batch-origin{
+    font-family:var(--display);
+    font-size:26px;
+    margin-bottom:4px;
+  }
+  .batch-sub{
+    font-size:13px;
+    color:var(--parchment-dim);
+    margin-bottom:22px;
+  }
+  .spec-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .spec{
+    border-top:1px solid rgba(237,230,214,0.1);
+    padding-top:10px;
+  }
+  .spec .k{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--sage);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:4px;
+  }
+  .spec .v{
+    font-size:14px;
+    color:var(--parchment);
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    max-width:560px;
+    margin-bottom:56px;
+  }
+  .section-head .eyebrow{margin-bottom:14px;}
+  h2{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(30px, 3.4vw, 42px);
+    line-height:1.1;
+    margin-bottom:16px;
+  }
+  .section-head p{
+    color:var(--parchment-dim);
+    font-size:16px;
+  }
+
+  /* ---------- CURRENT BATCH GRID ---------- */
+  .beans-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  @media (max-width:860px){
+    .beans-grid{grid-template-columns:1fr;}
+  }
+  .bean-card{
+    background:var(--bark);
+    border:1px solid rgba(237,230,214,0.1);
+    border-radius:4px;
+    padding:28px;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+    opacity:0;
+    transform:translateY(16px);
+    animation:reveal 0.6s ease forwards;
+  }
+  .bean-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(232,163,61,0.4);
+  }
+  .bean-card .region{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--amber);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:12px;
+  }
+  .bean-card h3{
+    font-family:var(--display);
+    font-size:24px;
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .bean-card .notes{
+    color:var(--parchment-dim);
+    font-size:14px;
+    margin-bottom:20px;
+  }
+  .bean-card .meta{
+    display:flex;
+    justify-content:space-between;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sage);
+    border-top:1px solid rgba(237,230,214,0.1);
+    padding-top:14px;
+  }
+
+  @keyframes reveal{
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process{
+    background:var(--bark);
+  }
+  .process-list{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:rgba(237,230,214,0.1);
+    border:1px solid rgba(237,230,214,0.1);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  @media (max-width:860px){
+    .process-list{grid-template-columns:1fr;}
+  }
+  .process-step{
+    background:var(--bark);
+    padding:32px 24px;
+  }
+  .process-step .num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--amber);
+    display:block;
+    margin-bottom:16px;
+  }
+  .process-step h4{
+    font-family:var(--display);
+    font-size:19px;
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .process-step p{
+    font-size:13.5px;
+    color:var(--parchment-dim);
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  @media (max-width:860px){
+    .testimonials{grid-template-columns:1fr;}
+  }
+  .testimonial{
+    padding-top:24px;
+    border-top:1px solid rgba(237,230,214,0.15);
+  }
+  .testimonial p{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:18px;
+    line-height:1.4;
+    margin-bottom:16px;
+    color:var(--parchment);
+  }
+  .testimonial .who{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sage);
+  }
+
+  /* ---------- SIGNUP / FOOTER ---------- */
+  .signup{
+    background:linear-gradient(160deg, var(--bark), var(--espresso));
+    border-radius:4px;
+    padding:56px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:32px;
+    border:1px solid rgba(237,230,214,0.1);
+  }
+  @media (max-width:760px){
+    .signup{grid-template-columns:1fr; padding:36px 24px;}
+  }
+  .signup h3{
+    font-family:var(--display);
+    font-size:28px;
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  .signup p{color:var(--parchment-dim); font-size:14px;}
+  .signup-form{
+    display:flex;
+    gap:10px;
+  }
+  @media (max-width:480px){
+    .signup-form{flex-direction:column;}
+  }
+  .signup-form input{
+    background:transparent;
+    border:1px solid rgba(237,230,214,0.25);
+    color:var(--parchment);
+    padding:14px 16px;
+    border-radius:2px;
+    font-family:var(--body);
+    font-size:14px;
+    min-width:220px;
+  }
+  .signup-form input::placeholder{color:var(--parchment-dim);}
+  .signup-form button{
+    font-family:var(--mono);
+    background:var(--amber);
+    color:var(--espresso);
+    border:none;
+    padding:14px 22px;
+    border-radius:2px;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    transition:background 0.2s ease;
+  }
+  .signup-form button:hover{background:#F2B558;}
+  .form-msg{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--sage);
+    margin-top:10px;
+    min-height:16px;
+  }
+
+  footer{
+    padding:56px 0 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid rgba(237,230,214,0.1);
+    margin-top:40px;
+    font-size:13px;
+    color:var(--parchment-dim);
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .footer-links{
+    display:flex;
+    gap:24px;
+  }
+  .footer-links a:hover{color:var(--parchment);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#" class="logo"><span class="dot"></span>NOMAD ROASTERS</a>
+      <ul class="nav-links nav-mobile-hide">
+        <li><a href="#batch">Current Batch</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#voices">Voices</a></li>
+      </ul>
+      <a href="#signup" class="nav-cta">Shop the Batch</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <div class="eyebrow">Batch No. 014 — Roasted This Week</div>
+      <h1>Coffee roasted <em>in small enough</em> batches to taste the difference.</h1>
+      <p class="hero-copy">We roast twelve kilos at a time, log every batch like a lab notebook, and ship within 48 hours of the drop. No blends you can't trace back to a single farm.</p>
+      <div class="hero-actions">
+        <a href="#signup" class="btn-primary">Shop the Batch →</a>
+        <a href="#process" class="btn-ghost">See how we roast</a>
+      </div>
+    </div>
+
+    <div class="batch-label">
+      <div class="batch-label-head">
+        <span class="no">LOT / 014-A</span>
+        <span class="status">● In Stock</span>
+      </div>
+      <div class="batch-origin">Yirgacheffe, Ethiopia</div>
+      <div class="batch-sub">Washed process · Single farm, Konga Cooperative</div>
+      <div class="spec-grid">
+        <div class="spec"><span class="k">Altitude</span><span class="v">1,950m</span></div>
+        <div class="spec"><span class="k">Roast Date</span><span class="v">Aug 3, 2026</span></div>
+        <div class="spec"><span class="k">Roast Level</span><span class="v">Light-Medium</span></div>
+        <div class="spec"><span class="k">Cupping Score</span><span class="v">87.5</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="batch">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">On Deck</div>
+        <h2>This week's lineup</h2>
+        <p>Three origins, roasted Monday, gone by Friday. Once a lot sells out, it doesn't come back the same way twice.</p>
+      </div>
+      <div class="beans-grid">
+        <div class="bean-card" style="animation-delay:0s">
+          <div class="region">Ethiopia · Yirgacheffe</div>
+          <h3>Konga Lot 014</h3>
+          <p class="notes">Bergamot, stone fruit, black tea finish. Bright and floral, best filtered.</p>
+          <div class="meta"><span>1,950m</span><span>$21 / 340g</span></div>
+        </div>
+        <div class="bean-card" style="animation-delay:0.1s">
+          <div class="region">Colombia · Huila</div>
+          <h3>El Diviso</h3>
+          <p class="notes">Red apple, brown sugar, soft cocoa. Balanced enough for espresso or pour-over.</p>
+          <div class="meta"><span>1,700m</span><span>$19 / 340g</span></div>
+        </div>
+        <div class="bean-card" style="animation-delay:0.2s">
+          <div class="region">Indonesia · Sumatra</div>
+          <h3>Lintong Reserve</h3>
+          <p class="notes">Cedar, dark chocolate, low acidity. Heavy body, holds up well in milk.</p>
+          <div class="meta"><span>1,400m</span><span>$20 / 340g</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Method</div>
+        <h2>Four steps, every batch, no shortcuts</h2>
+        <p>The same sequence runs on every lot that comes through the door, so what changes is the bean, not the process.</p>
+      </div>
+      <div class="process-list">
+        <div class="process-step">
+          <span class="num">01</span>
+          <h4>Cup it blind</h4>
+          <p>Every green lot is cupped before we commit to buying it — no origin story overrides a bad cup.</p>
+        </div>
+        <div class="process-step">
+          <span class="num">02</span>
+          <h4>Roast in small batches</h4>
+          <p>12kg at a time on a drum roaster, profiled per lot rather than run on a house curve.</p>
+        </div>
+        <div class="process-step">
+          <span class="num">03</span>
+          <h4>Rest and re-cup</h4>
+          <p>Beans rest for 5–10 days, then we cup again to confirm the profile before it ships.</p>
+        </div>
+        <div class="process-step">
+          <span class="num">04</span>
+          <h4>Ship within 48 hours</h4>
+          <p>Bagged and shipped the same week it's roasted — never from a warehouse shelf.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="voices">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Word of Mouth</div>
+        <h2>What keeps people subscribing</h2>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial">
+          <p>"First bag that actually tasted like the tasting notes on the label."</p>
+          <div class="who">— Priya M., subscriber since Lot 002</div>
+        </div>
+        <div class="testimonial">
+          <p>"I've stopped checking other roasters. The Sumatra alone is worth it."</p>
+          <div class="who">— Daniel O., Melbourne</div>
+        </div>
+        <div class="testimonial">
+          <p>"Batch tracking sounds gimmicky until you taste the difference between two lots."</p>
+          <div class="who">— Farrah K., home barista</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="signup">
+    <div class="wrap">
+      <div class="signup">
+        <div>
+          <h3>Get next week's batch before it lists</h3>
+          <p>One email, every Monday. No spam, unsubscribe in one click.</p>
+        </div>
+        <div>
+          <form class="signup-form" id="signupForm">
+            <input type="email" id="emailInput" placeholder="you@email.com" required aria-label="Email address">
+            <button type="submit">Notify Me</button>
+          </form>
+          <div class="form-msg" id="formMsg"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Nomad Roasters. Small batches, shipped fresh.</span>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">Contact</a>
+    <a href="#">Wholesale</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value;
+    const msg = document.getElementById('formMsg');
+    if(email){
+      msg.textContent = "You're on the list — see you Monday.";
+      document.getElementById('emailInput').value = '';
+    }
+  });
+
+  // reveal-on-scroll for bean cards already animates on load;
+  // this adds the same treatment to process steps and testimonials on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold:0.15});
+
+  document.querySelectorAll('.process-step, .testimonial').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(14px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
