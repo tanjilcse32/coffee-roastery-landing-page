@@ -2,7 +2,7 @@
 
 A fully responsive landing page concept for a small-batch coffee roastery, built from scratch with HTML, CSS, and JavaScript — no templates or frameworks.
 
-**[View Live Site →](https://yourusername.github.io/coffee-roastery-landing-page/)**
+**[View Live Site →](https://tanjilcse32.github.io/coffee-roastery-landing-page/)**
 
 ![Preview](preview.png)
 
